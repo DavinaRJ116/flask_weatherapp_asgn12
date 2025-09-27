@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>📅 5-Day Forecast for {{ city }}</h2>
+    <div class="forecast-grid">
+        {% for day in forecast %}
+        <div class="forecast-card">
+            <p><strong>{{ day.date }}</strong></p>
+            <p class="icon">{{ day.icon }}</p>
+            <p>Min: {{ day.min }}°C | Max: {{ day.max }}°C</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <canvas id="forecastChart"></canvas>
+</div>
+
+<script>
+    const labels = {{ forecast | map(attribute='date') | list | tojson }};
+    const minTemps = {{ forecast | map(attribute='min') | list | tojson }};
+    const maxTemps = {{ forecast | map(attribute='max') | list | tojson }};
+
+    const ctx = document.getElementById('forecastChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                { label: 'Min Temp', data: minTemps, borderColor: 'blue', backgroundColor: 'rgba(135,206,250,0.5)', fill: true },
+                { label: 'Max Temp', data: maxTemps, borderColor: 'red', backgroundColor: 'rgba(255,182,193,0.5)', fill: true }
+            ]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>🌍 Check Weather</h2>
+    <form method="post" class="city-form">
+        <label for="city">Choose a City:</label>
+        <select name="city" required>
+            {% for c in cities %}
+                <option value="{{ c }}" {% if city == c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    {% if weather %}
+    <div class="card">
+        <h3>{{ city }}</h3>
+        <p><strong>Temperature:</strong> {{ weather.temp }} °C</p>
+        <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+        <p><strong>Description:</strong> {{ weather.desc }}</p>
+        <a href="{{ url_for('forecast', city=city) }}" class="btn">📅 View 5-Day Forecast</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

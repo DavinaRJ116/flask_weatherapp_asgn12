@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="navbar">
+        <h1>🌈 Weather Dashboard</h1>
+        <nav>
+            <a href="{{ url_for('weather') }}">Weather</a>
+            {% if city %}
+                <a href="{{ url_for('forecast', city=city) }}">Forecast</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2025 Weather App | Designed with ❤️</p>
+    </footer>
+</body>
+</html>
